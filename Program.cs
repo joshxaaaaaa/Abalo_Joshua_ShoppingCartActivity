@@ -32,6 +32,10 @@ namespace JAShoppingCartSystem
             prods[8] = product9;
             prods[9] = product10;
 
+            CartItems[] cart = new CartItems[10];
+
+            int cartCount = 0;
+
             bool isHere = true;
 
             while (isHere)
@@ -67,6 +71,101 @@ namespace JAShoppingCartSystem
                         }
                         break;
 
+                    case 2:
+
+                        Console.WriteLine("IDs |     Names     |   Prices   |   Stocks");
+                        foreach (var product in prods)
+                        {
+                            product.displayProducts();
+                        }
+                        
+                        Console.Write("Choose product ID number to add to cart: ");
+                        string choiceProd = Console.ReadLine();
+                        if (int.TryParse(choiceProd, out int choiceProd1))
+                        {
+                            bool productFound = false;
+                            foreach (var product in prods)
+                            {
+                                if (choiceProd1 == product.prodIds)
+                                {
+                                    productFound = true;
+                                    Console.Write("Enter quantity to buy: ");
+                                    string qtyInput = Console.ReadLine();
+                                    if (int.TryParse(qtyInput, out int quantity) && quantity > 0)
+                                    {
+                                        if (product.enoughStock(quantity))
+                                        {
+                                            product.deductStock(quantity);
+
+                                            if (cartCount < cart.Length)
+                                            {
+                                                CartItems newItem = new CartItems();
+                                                newItem.CartProduct = product;
+                                                newItem.Quantity = quantity;
+                                                cart[cartCount] = newItem;
+                                                cartCount++;
+
+                                                Console.WriteLine($"Succcessfully added to cart!");
+                                                Console.WriteLine($"Total: {product.getCartTotal(quantity):F2}");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Your cart is full!");
+                                            }
+                                        }
+
+                                        else
+                                        {
+                                            Console.WriteLine($"Sorry! Not enough stock. Only {product.prodStocks} left");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid quantity entered!");
+                                    }
+                                    break;
+                                }
+                            }
+                            if (!productFound)
+                            {
+                                Console.WriteLine("Product ID not found!");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid ID format!");
+                        }
+                        
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Your Shopping Cart");
+                        if (cartCount == 0)
+                        {
+                            Console.WriteLine("Your cart is empty");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{"Product Name", -15} | {"Qty", -5} | {"Price", -10} | {"Subtotal"}");
+                            Console.WriteLine("=======================================================================");
+                            double grandTotal = 0;
+
+                            for (int x = 0; x < cartCount; x++)
+                            {
+                                CartItems currentItem = cart[x];
+                                string name = currentItem.CartProduct.prodNames;
+                                int qty = currentItem.Quantity;
+                                double price = currentItem.CartProduct.prodPrices;
+                                double subTotal = currentItem.GetSubtotal();
+                                grandTotal += subTotal;
+                                Console.WriteLine($"{name, -15} | {qty, -5} | {price, -9:F2} | {subTotal:F2}");
+                            }
+                            Console.WriteLine("=====================================================================");
+                            Console.WriteLine($"Grand Total: {grandTotal:F2}");
+                        }
+
+                        break;
+                    
                     case 5:
                         Console.WriteLine("Thanks for visiting!");
                         isHere = false;
