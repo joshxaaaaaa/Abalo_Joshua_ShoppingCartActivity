@@ -8,7 +8,6 @@ namespace JAShoppingCartSystem
     {
         public Products CartProduct;
         public int Quantity; 
-
         public double GetSubtotal()
         {
             return CartProduct.getCartTotal(Quantity);

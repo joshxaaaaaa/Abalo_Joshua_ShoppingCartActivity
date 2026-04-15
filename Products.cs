@@ -21,21 +21,17 @@ namespace JAShoppingCartSystem
         {
             Console.WriteLine($"{prodIds,-7} {prodNames,-12} {prodPrices,10:F2}   {prodStocks,8}");
         }
-
         public double getCartTotal(int quantity)
         {
             return prodPrices * quantity;
         }
-
         public bool enoughStock(int quantity)
         {
             return ( prodStocks >= quantity );
         }
-
         public void deductStock(int quantity)
         {
             prodStocks -= quantity;
         }
-
     }
 }
