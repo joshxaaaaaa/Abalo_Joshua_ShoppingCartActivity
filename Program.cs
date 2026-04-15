@@ -64,7 +64,7 @@ namespace JAShoppingCartSystem
                 {
                     case 1:
                         Console.WriteLine("PRODUCTS");
-                        Console.WriteLine("IDs |     Names     |   Prices   |   Stocks");
+                        Console.WriteLine("IDs       Names         Prices        Stocks");
                         foreach (var product in prods)
                         {
                             product.displayProducts();
@@ -73,69 +73,100 @@ namespace JAShoppingCartSystem
 
                     case 2:
 
-                        Console.WriteLine("IDs |     Names     |   Prices   |   Stocks");
-                        foreach (var product in prods)
+                        bool orderMore = true; 
+                        while (orderMore)
                         {
-                            product.displayProducts();
-                        }
-                        
-                        Console.Write("Choose product ID number to add to cart: ");
-                        string choiceProd = Console.ReadLine();
-                        if (int.TryParse(choiceProd, out int choiceProd1))
-                        {
-                            bool productFound = false;
+                            Console.WriteLine("IDs       Names         Prices        Stocks");
                             foreach (var product in prods)
                             {
-                                if (choiceProd1 == product.prodIds)
+                                product.displayProducts();
+                            }
+
+                            Console.Write("Choose product ID number to add to cart: ");
+                            string choiceProd = Console.ReadLine();
+                            if (int.TryParse(choiceProd, out int choiceProd1))
+                            {
+                                bool productFound = false;
+                                foreach (var product in prods)
                                 {
-                                    productFound = true;
-                                    Console.Write("Enter quantity to buy: ");
-                                    string qtyInput = Console.ReadLine();
-                                    if (int.TryParse(qtyInput, out int quantity) && quantity > 0)
+                                    if (choiceProd1 == product.prodIds)
                                     {
-                                        if (product.enoughStock(quantity))
+                                        productFound = true;
+                                        Console.Write("Enter quantity to buy: ");
+                                        string qtyInput = Console.ReadLine();
+                                        if (int.TryParse(qtyInput, out int quantity) && quantity > 0)
                                         {
-                                            product.deductStock(quantity);
-
-                                            if (cartCount < cart.Length)
+                                            if (product.enoughStock(quantity))
                                             {
-                                                CartItems newItem = new CartItems();
-                                                newItem.CartProduct = product;
-                                                newItem.Quantity = quantity;
-                                                cart[cartCount] = newItem;
-                                                cartCount++;
+                                                bool itemInCart = false;
 
-                                                Console.WriteLine($"Succcessfully added to cart!");
-                                                Console.WriteLine($"Total: {product.getCartTotal(quantity):F2}");
+                                                for (int x = 0; x < cartCount; x++)
+                                                {
+                                                    if (cart[x].CartProduct.prodIds == product.prodIds)
+                                                    {
+                                                        cart[x].Quantity += quantity;
+                                                        product.deductStock(quantity);
+                                                        itemInCart = true;
+
+                                                        Console.WriteLine($"Succcessfully added to cart!");
+                                                        Console.WriteLine($"New Subtotal for Product {product.prodNames}: {cart[x].GetSubtotal():F2}");
+                                                        break;
+                                                    }
+                                                }
+
+                                                if (!itemInCart)
+                                                {
+                                                    if (cartCount < cart.Length)
+                                                    {
+                                                        CartItems newItem = new CartItems();
+                                                        newItem.CartProduct = product;
+                                                        newItem.Quantity = quantity;
+
+                                                        cart[cartCount] = newItem;
+                                                        cartCount++;
+
+                                                        product.deductStock(quantity);
+                                                        Console.WriteLine($"Succcessfully added to cart!");
+                                                        Console.WriteLine($"Total: {product.getCartTotal(quantity):F2}");
+                                                    }
+                                                    else
+                                                    {
+                                                        Console.WriteLine("Your cart is full!");
+                                                    }
+                                                }
+
                                             }
+
                                             else
                                             {
-                                                Console.WriteLine("Your cart is full!");
+                                                Console.WriteLine($"Sorry! Not enough stock. Only {product.prodStocks} left");
                                             }
                                         }
-
                                         else
                                         {
-                                            Console.WriteLine($"Sorry! Not enough stock. Only {product.prodStocks} left");
+                                            Console.WriteLine("Invalid quantity entered!");
                                         }
+                                        break;
                                     }
-                                    else
-                                    {
-                                        Console.WriteLine("Invalid quantity entered!");
-                                    }
-                                    break;
+                                }
+                                if (!productFound)
+                                {
+                                    Console.WriteLine("Product ID not found!");
                                 }
                             }
-                            if (!productFound)
+                            else
                             {
-                                Console.WriteLine("Product ID not found!");
+                                Console.WriteLine("Invalid ID format!");
                             }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid ID format!");
-                        }
-                        
+
+                            Console.WriteLine("Do you want to order more? (Y/N): ");
+                            string userOrderMore = Console.ReadLine().ToUpper();
+
+                            if (userOrderMore == "N")
+                            {
+                                orderMore = false;
+                            }
+                        }                    
                         break;
 
                     case 3:
@@ -165,7 +196,89 @@ namespace JAShoppingCartSystem
                         }
 
                         break;
-                    
+
+                    case 4:
+                        if (cartCount == 0)
+                        {
+                            Console.WriteLine("Your cart is empty. Please add items to your cart before to proceed in payment");
+                            break;
+                        }
+
+                        double totalPayment = 0;
+                        for (int x = 0; x < cartCount; x++)
+                        {
+                            totalPayment += cart[x].GetSubtotal();
+                        }
+                        Console.WriteLine("Payment");
+                        Console.WriteLine($"Grand Total: {totalPayment:F2}");
+
+                        double finalTotal = totalPayment;
+                        double discountAmount = 0;
+
+                        if (finalTotal >= 20000)
+                        {
+                            discountAmount = totalPayment * .1;
+                            finalTotal = totalPayment - discountAmount;
+                            Console.WriteLine($"10% Discount Applied: {discountAmount:F2}");
+
+                        }
+                        Console.WriteLine($"Final Amount to Pay: {finalTotal:F2}");
+                        bool isPaid = false;
+
+
+                        while (!isPaid)
+                        {
+                            Console.Write("Enter payment amount: ");
+                            string paymentInput = Console.ReadLine();
+
+                            if (double.TryParse(paymentInput, out double cashPayment))
+                            {
+                                if (cashPayment >= finalTotal)
+                                {
+                                    double change = cashPayment - finalTotal;
+
+                                    Console.WriteLine("Official Receipt");
+                                    Console.WriteLine("==================================================");
+                                    Console.WriteLine($"{"Product Name",-15} | {"Qty",-5} | {"Subtotal"}");
+                                    Console.WriteLine("--------------------------------------------------");
+
+                                    for (int x = 0; x < cartCount; x++)
+                                    {
+                                        CartItems item = cart[x];
+                                        string itemName = item.CartProduct.prodNames;
+                                        Console.WriteLine($"{itemName,-15} | {item.Quantity,-5} | {item.GetSubtotal():F2}");
+                                    }
+                                    Console.WriteLine("---------------------------------------------------");
+                                    Console.WriteLine($"Grant Total: {totalPayment}");
+
+                                    if (discountAmount > 0)
+                                    {
+                                        Console.WriteLine($"Discount 10%: {discountAmount:F2}");
+                                    }
+
+                                    Console.WriteLine($"Final Total: {finalTotal:F2}");
+                                    Console.WriteLine($"Cash Paid: {cashPayment:F2}");
+                                    Console.WriteLine($"Change: {change:F2}");
+                                    Console.WriteLine("=====================================================");
+                                    Console.WriteLine("Thank you for Shopping in JA Gadgets & Accessories");
+
+                                    cartCount = 0;
+                                    isPaid = true;
+                                }
+                                else
+                                {
+                                    double shortAmount = finalTotal - cashPayment;
+                                    Console.WriteLine($"Insuficient amount! Your cash is insufficient by {shortAmount:F2}");
+                                }
+                            }
+
+                            else
+                            {
+                                Console.WriteLine("Invalid input. Please enter numbers only!");
+                            }
+                        }
+                        break;
+
                     case 5:
                         Console.WriteLine("Thanks for visiting!");
                         isHere = false;
