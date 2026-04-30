@@ -6,6 +6,7 @@ namespace JAShoppingCartSystem
 {
     class Program
     {
+        //Constructors of Products 
         static void Main(string[] args)
         {      
             Products product1 = new Products(001, "Laptop", 40000.00, 60, "Gadgets"); 
