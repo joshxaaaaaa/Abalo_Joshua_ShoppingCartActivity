@@ -45,6 +45,7 @@ namespace JAShoppingCartSystem
 
             CartItems[] cart = new CartItems[10];
             int cartCount = 0;
+            int receiptNumber = 1;
             bool isHere = true;
 
             while (isHere)
@@ -94,6 +95,13 @@ namespace JAShoppingCartSystem
                                 continue;
                             }
                             else if (choiceProduct > 5 || choiceProduct < 1)
+                            {
+                                Console.WriteLine("INVALID! Select from number 1 to 5 ONLY!");
+                                continue;
+                            }
+
+                            switch (choiceProduct)
+                            {
                             {
                                 Console.WriteLine("INVALID! Select from number 1 to 5 ONLY!");
                                 continue;
@@ -233,6 +241,12 @@ namespace JAShoppingCartSystem
                             }
                             else if (choiceCart > 6 || choiceCart < 1)
                             {
+                            {
+                                Console.WriteLine("INVALID! Non-numeric inputs are not acceptable");
+                                continue;
+                            }
+                            else if (choiceCart > 6 || choiceCart < 1)
+                            {
                                 Console.WriteLine("INVALID! Select from number 1 to 6 ONLY!");
                                 continue;
                             }
@@ -245,6 +259,13 @@ namespace JAShoppingCartSystem
                                     {
                                         Console.WriteLine("-----------------  VIEW CART  -----------------");
                                         if (cartCount == 0)
+                                        {
+                                            Console.WriteLine("------------------------------------------------");
+                                            Console.WriteLine("Your cart is empty!");
+                                            Console.WriteLine("------------------------------------------------");
+                                        }
+                                        else
+                                        {
                                         {
                                             Console.WriteLine("------------------------------------------------");
                                             Console.WriteLine("Your cart is empty!");
@@ -434,6 +455,9 @@ namespace JAShoppingCartSystem
                                                 double change = cashPayment - finalTotal;
                                                 Console.WriteLine("--------------- OFFICIAL RECEIPT  ---------------");
                                                 Console.WriteLine("------------------------------------------------");
+                                                Console.WriteLine($"Receipt No: {receiptNumber.ToString("D4")}");
+                                                Console.WriteLine($"Date: {DateTime.Now.ToString("MMMM dd, yyyy h:mm tt")}");
+                                                Console.WriteLine("------------------------------------------------");
                                                 Console.WriteLine($"{"Product Name",-15} | {"Qty",-5} | {"Subtotal"}");
                                                 Console.WriteLine("------------------------------------------------");
                                                 for (int x = 0; x < cartCount; x++)
@@ -454,6 +478,18 @@ namespace JAShoppingCartSystem
                                                 Console.WriteLine("===============================================");
                                                 Console.WriteLine("Thank you for Shopping in JA Gadgets & Accessories");
                                                 Console.WriteLine("===============================================");
+
+                                                receiptNumber++;
+
+                                                Console.WriteLine("--- LOW STOCK ALERT ---");
+                                                foreach (var product in prods)
+                                                {
+                                                    if (product.prodStocks <= 5)
+                                                    {
+                                                        Console.WriteLine($"{product.prodNames} has only {product.prodStocks} stock/s only");                                                                                                                                                                                                                              
+                                                    }
+                                                }
+
                                                 Console.Write("Press anything to back to the main dashboard: ");
                                                 Console.ReadLine();
                                                 cartCount = 0;
@@ -483,6 +519,7 @@ namespace JAShoppingCartSystem
                         
 
                     case 3:
+
                         break;
                         
 
