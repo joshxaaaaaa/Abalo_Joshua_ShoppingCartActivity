@@ -16,6 +16,8 @@ namespace JAShoppingCartSystem
         {
             Console.WriteLine($"{"ID", -5} | {"Product Name",-15} | {"Qty",-5} | {"Price",-10} | {"Subtotal"}");
             Console.WriteLine("----------------------------------------------------------");
+            Console.WriteLine($"{"Product Name",-15} | {"Qty",-5} | {"Price",-10} | {"Subtotal"}");
+            Console.WriteLine("------------------------------------------------");
             double grandTotal = 0;
             for (int x = 0; x < cartCount; x++)
             {
@@ -68,6 +70,13 @@ namespace JAShoppingCartSystem
             {
                 Console.WriteLine("Invalid ID format");
             }
+        }
+                Console.WriteLine($"{name,-15} | {qty,-5} | {price,-9:F2} | {subTotal:F2}");
+            }
+            Console.WriteLine("===============================================");
+            Console.WriteLine($"GRAND TOTAL:                          {grandTotal:F2}");
+
+            return grandTotal;
         }
     }
 }

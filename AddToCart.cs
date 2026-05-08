@@ -12,12 +12,14 @@ namespace JAShoppingCartSystem
             while (orderMore)
             {
                 Console.WriteLine("---------------------  ADD TO CART  ----------------------");
+                Console.WriteLine("----------------  ADD TO CART  ----------------");
                 Console.WriteLine($"{"IDs",-7} {"Name",-12} {"Category",-15} {"Price",10}   {"Stocks",8}");
                 foreach (var product in prods)
                 {
                     product.displayProducts();
                 }
                 Console.WriteLine("----------------------------------------------------------");
+                Console.WriteLine("------------------------------------------------");
 
                 Console.Write("Choose product ID number to add to cart: ");
                 string choiceProd = Console.ReadLine();
@@ -47,6 +49,10 @@ namespace JAShoppingCartSystem
                                             Console.WriteLine($"Succcessfully added to cart!");
                                             Console.WriteLine($"New Subtotal for Product {product.prodNames}: {cart[x].GetSubtotal():F2}");
                                             Console.WriteLine("----------------------------------------------------------");
+                                            Console.WriteLine("------------------------------------------------");
+                                            Console.WriteLine($"Succcessfully added to cart!");
+                                            Console.WriteLine($"New Subtotal for Product {product.prodNames}: {cart[x].GetSubtotal():F2}");
+                                            Console.WriteLine("------------------------------------------------");
                                             break;
                                         }
                                     }
@@ -70,6 +76,16 @@ namespace JAShoppingCartSystem
                                             Console.WriteLine("----------------------------------------------------------");
                                             Console.WriteLine("Your cart is full!");
                                             Console.WriteLine("----------------------------------------------------------");
+                                            Console.WriteLine("------------------------------------------------");
+                                            Console.WriteLine($"Succcessfully added to cart!");
+                                            Console.WriteLine($"Total: {product.getCartTotal(quantity):F2}");
+                                            Console.WriteLine("------------------------------------------------");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("------------------------------------------------");
+                                            Console.WriteLine("Your cart is full!");
+                                            Console.WriteLine("------------------------------------------------");
                                         }
                                     }
                                 }
@@ -78,6 +94,9 @@ namespace JAShoppingCartSystem
                                     Console.WriteLine("----------------------------------------------------------");
                                     Console.WriteLine($"Sorry! Not enough stock. Only {product.prodStocks} left");
                                     Console.WriteLine("----------------------------------------------------------"); 
+                                    Console.WriteLine("------------------------------------------------");
+                                    Console.WriteLine($"Sorry! Not enough stock. Only {product.prodStocks} left");
+                                    Console.WriteLine("------------------------------------------------");
                                 }
                             }
                             else
@@ -85,6 +104,9 @@ namespace JAShoppingCartSystem
                                 Console.WriteLine("----------------------------------------------------------");
                                 Console.WriteLine("Invalid quantity format! Please enter quantity number");
                                 Console.WriteLine("----------------------------------------------------------");
+                                Console.WriteLine("------------------------------------------------");
+                                Console.WriteLine("Invalid quantity format! Please enter quantity number");
+                                Console.WriteLine("------------------------------------------------");
                             }
                             break;
                         }
@@ -94,6 +116,9 @@ namespace JAShoppingCartSystem
                         Console.WriteLine("----------------------------------------------------------");
                         Console.WriteLine("Product ID not found!");
                         Console.WriteLine("----------------------------------------------------------");
+                        Console.WriteLine("------------------------------------------------");
+                        Console.WriteLine("Product ID not found!");
+                        Console.WriteLine("------------------------------------------------");
                     }
                 }
                 else
@@ -103,6 +128,11 @@ namespace JAShoppingCartSystem
                     Console.WriteLine("----------------------------------------------------------");
                 }
                 Console.Write("Do you want to order again? (Press Enter to order again / Press 'X' to exit): ");
+                    Console.WriteLine("------------------------------------------------");
+                    Console.WriteLine("Invalid ID format! Please enter Product ID number");
+                    Console.WriteLine("------------------------------------------------");
+                }
+                Console.Write("Do you want to order again? (Press anything to order again / Press 'X' to exit): ");
                 string userOrderMore = Console.ReadLine().ToUpper();
 
                 if (userOrderMore == "X")
