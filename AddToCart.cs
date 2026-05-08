@@ -11,12 +11,14 @@ namespace JAShoppingCartSystem
             bool orderMore = true;
             while (orderMore)
             {
+                Console.WriteLine("---------------------  ADD TO CART  ----------------------");
                 Console.WriteLine("----------------  ADD TO CART  ----------------");
                 Console.WriteLine($"{"IDs",-7} {"Name",-12} {"Category",-15} {"Price",10}   {"Stocks",8}");
                 foreach (var product in prods)
                 {
                     product.displayProducts();
                 }
+                Console.WriteLine("----------------------------------------------------------");
                 Console.WriteLine("------------------------------------------------");
 
                 Console.Write("Choose product ID number to add to cart: ");
@@ -43,6 +45,10 @@ namespace JAShoppingCartSystem
                                             cart[x].Quantity += quantity;
                                             product.deductStock(quantity);
                                             itemInCart = true;
+                                            Console.WriteLine("----------------------------------------------------------");
+                                            Console.WriteLine($"Succcessfully added to cart!");
+                                            Console.WriteLine($"New Subtotal for Product {product.prodNames}: {cart[x].GetSubtotal():F2}");
+                                            Console.WriteLine("----------------------------------------------------------");
                                             Console.WriteLine("------------------------------------------------");
                                             Console.WriteLine($"Succcessfully added to cart!");
                                             Console.WriteLine($"New Subtotal for Product {product.prodNames}: {cart[x].GetSubtotal():F2}");
@@ -60,6 +66,16 @@ namespace JAShoppingCartSystem
                                             cart[cartCount] = newItem;
                                             cartCount++;
                                             product.deductStock(quantity);
+                                            Console.WriteLine("----------------------------------------------------------");
+                                            Console.WriteLine($"Succcessfully added to cart!");
+                                            Console.WriteLine($"Total: {product.getCartTotal(quantity):F2}");
+                                            Console.WriteLine("----------------------------------------------------------");
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("----------------------------------------------------------");
+                                            Console.WriteLine("Your cart is full!");
+                                            Console.WriteLine("----------------------------------------------------------");
                                             Console.WriteLine("------------------------------------------------");
                                             Console.WriteLine($"Succcessfully added to cart!");
                                             Console.WriteLine($"Total: {product.getCartTotal(quantity):F2}");
@@ -75,6 +91,9 @@ namespace JAShoppingCartSystem
                                 }
                                 else
                                 {
+                                    Console.WriteLine("----------------------------------------------------------");
+                                    Console.WriteLine($"Sorry! Not enough stock. Only {product.prodStocks} left");
+                                    Console.WriteLine("----------------------------------------------------------"); 
                                     Console.WriteLine("------------------------------------------------");
                                     Console.WriteLine($"Sorry! Not enough stock. Only {product.prodStocks} left");
                                     Console.WriteLine("------------------------------------------------");
@@ -82,6 +101,9 @@ namespace JAShoppingCartSystem
                             }
                             else
                             {
+                                Console.WriteLine("----------------------------------------------------------");
+                                Console.WriteLine("Invalid quantity format! Please enter quantity number");
+                                Console.WriteLine("----------------------------------------------------------");
                                 Console.WriteLine("------------------------------------------------");
                                 Console.WriteLine("Invalid quantity format! Please enter quantity number");
                                 Console.WriteLine("------------------------------------------------");
@@ -91,6 +113,9 @@ namespace JAShoppingCartSystem
                     }
                     if (!productFound)
                     {
+                        Console.WriteLine("----------------------------------------------------------");
+                        Console.WriteLine("Product ID not found!");
+                        Console.WriteLine("----------------------------------------------------------");
                         Console.WriteLine("------------------------------------------------");
                         Console.WriteLine("Product ID not found!");
                         Console.WriteLine("------------------------------------------------");
@@ -98,6 +123,11 @@ namespace JAShoppingCartSystem
                 }
                 else
                 {
+                    Console.WriteLine("----------------------------------------------------------");
+                    Console.WriteLine("Invalid ID format! Please enter Product ID number");
+                    Console.WriteLine("----------------------------------------------------------");
+                }
+                Console.Write("Do you want to order again? (Press Enter to order again / Press 'X' to exit): ");
                     Console.WriteLine("------------------------------------------------");
                     Console.WriteLine("Invalid ID format! Please enter Product ID number");
                     Console.WriteLine("------------------------------------------------");
