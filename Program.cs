@@ -6,6 +6,8 @@ namespace JAShoppingCartSystem
 {
     class Program
     {
+        //Constructors of Products 
+        // 
         static void Main(string[] args)
         {      
             Products product1 = new Products(001, "Laptop", 40000.00, 60, "Gadgets"); 
@@ -93,6 +95,13 @@ namespace JAShoppingCartSystem
                                 continue;
                             }
                             else if (choiceProduct > 5 || choiceProduct < 1)
+                            {
+                                Console.WriteLine("INVALID! Select from number 1 to 5 ONLY!");
+                                continue;
+                            }
+
+                            switch (choiceProduct)
+                            {
                             {
                                 Console.WriteLine("INVALID! Select from number 1 to 5 ONLY!");
                                 continue;
@@ -232,6 +241,12 @@ namespace JAShoppingCartSystem
                             }
                             else if (choiceCart > 6 || choiceCart < 1)
                             {
+                            {
+                                Console.WriteLine("INVALID! Non-numeric inputs are not acceptable");
+                                continue;
+                            }
+                            else if (choiceCart > 6 || choiceCart < 1)
+                            {
                                 Console.WriteLine("INVALID! Select from number 1 to 6 ONLY!");
                                 continue;
                             }
@@ -244,6 +259,13 @@ namespace JAShoppingCartSystem
                                     {
                                         Console.WriteLine("-----------------  VIEW CART  -----------------");
                                         if (cartCount == 0)
+                                        {
+                                            Console.WriteLine("------------------------------------------------");
+                                            Console.WriteLine("Your cart is empty!");
+                                            Console.WriteLine("------------------------------------------------");
+                                        }
+                                        else
+                                        {
                                         {
                                             Console.WriteLine("------------------------------------------------");
                                             Console.WriteLine("Your cart is empty!");
