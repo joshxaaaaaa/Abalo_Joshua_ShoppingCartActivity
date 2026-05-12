@@ -26,7 +26,7 @@ namespace JAShoppingCartSystem
                     bool productFound = false;
                     foreach (var product in prods)
                     {
-                        if (choiceProd1 == product.prodIds)
+                        if (choiceProd1 == product.GetProdIds())
                         {
                             productFound = true;
                             Console.Write("Enter quantity: ");
@@ -38,14 +38,14 @@ namespace JAShoppingCartSystem
                                     bool itemInCart = false;
                                     for (int x = 0; x < cartCount; x++)
                                     {
-                                        if (cart[x].CartProduct.prodIds == product.prodIds)
+                                        if (cart[x].CartProduct.GetProdIds() == product.GetProdIds())
                                         {
                                             cart[x].Quantity += quantity;
                                             product.deductStock(quantity);
                                             itemInCart = true;
                                             Console.WriteLine("----------------------------------------------------------");
                                             Console.WriteLine($"Succcessfully added to cart!");
-                                            Console.WriteLine($"New Subtotal for Product {product.prodNames}: {cart[x].GetSubtotal():F2}");
+                                            Console.WriteLine($"New Subtotal for Product {product.GetProdNames()}: {cart[x].GetSubtotal():F2}");
                                             Console.WriteLine("----------------------------------------------------------");
                                             break;
                                         }
@@ -76,7 +76,7 @@ namespace JAShoppingCartSystem
                                 else
                                 {
                                     Console.WriteLine("----------------------------------------------------------");
-                                    Console.WriteLine($"Sorry! Not enough stock. Only {product.prodStocks} left");
+                                    Console.WriteLine($"Sorry! Not enough stock. Only {product.GetProdStocks()} left");
                                     Console.WriteLine("----------------------------------------------------------"); 
                                 }
                             }
