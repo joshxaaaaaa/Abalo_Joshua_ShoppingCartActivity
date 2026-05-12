@@ -20,10 +20,10 @@ namespace JAShoppingCartSystem
             for (int x = 0; x < cartCount; x++)
             {
                 CartItems currentItem = cart[x];
-                int id = currentItem.CartProduct.prodIds;
-                string name = currentItem.CartProduct.prodNames;
+                int id = currentItem.CartProduct.GetProdIds();
+                string name = currentItem.CartProduct.GetProdNames();
                 int qty = currentItem.Quantity;
-                double price = currentItem.CartProduct.prodPrices;
+                double price = currentItem.CartProduct.GetProdPrices();
                 double subTotal = currentItem.GetSubtotal();
                 grandTotal += subTotal;
                 Console.WriteLine($"{id,-5} | {name,-15} | {qty,-5} | {price,-9:F2} | {subTotal:F2}");
@@ -44,11 +44,11 @@ namespace JAShoppingCartSystem
                 bool foundItem = false;
                 for (int a = 0; a < cartCount; a++)
                 {
-                    if (cart[a].CartProduct.prodIds == removeID)
+                    if (cart[a].CartProduct.GetProdIds() == removeID)
                     {
                         foundItem = true;
-                        cart[a].CartProduct.prodStocks += cart[a].Quantity;
-                        Console.WriteLine($"You successfully removed {cart[a].CartProduct.prodNames} to your cart");
+                        cart[a].CartProduct.addStock(cart[a].Quantity);
+                        Console.WriteLine($"You successfully removed {cart[a].CartProduct.GetProdNames()} from your cart");
 
                         for (int b = a; b < cartCount - 1; b++)
                         {

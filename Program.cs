@@ -171,7 +171,7 @@ namespace JAShoppingCartSystem
                                     bool foundCat = false;
                                     foreach(var products in prods)
                                     {
-                                        if (products.prodCategory == userCatChoice)
+                                        if (products.GetProdCategory() == userCatChoice)
                                         {
                                             products.displayProducts();
                                             foundCat = true;
@@ -199,7 +199,7 @@ namespace JAShoppingCartSystem
                                     bool foundProd = false;
                                     foreach (var products in prods)
                                     {
-                                        if (products.prodNames.ToLower().Contains(searchProd))
+                                        if (products.GetProdNames().ToLower().Contains(searchProd))
                                         {
                                             products.displayProducts();
                                             foundProd = true;
@@ -314,17 +314,17 @@ namespace JAShoppingCartSystem
                                         bool itemFound = false;
                                         for (int c = 0; c < cartCount; c++)
                                         {
-                                            if (cart[c].CartProduct.prodIds == updateID)
+                                            if (cart[c].CartProduct.GetProdIds() == updateID)
                                             {
                                                 itemFound = true;
-                                                Console.Write($"Enter new quantity for {cart[c].CartProduct.prodNames} (Current: {cart[c].Quantity}): ");
+                                                Console.Write($"Enter new quantity for {cart[c].CartProduct.GetProdNames()} (Current: {cart[c].Quantity}): ");
                                                 string qty = Console.ReadLine();
                                                 int newQty;
                                                 if (int.TryParse(qty, out newQty) && newQty >= 0)
                                                 {
                                                     if (newQty == 0)
                                                     {
-                                                        cart[c].CartProduct.prodStocks += cart[c].Quantity;
+                                                        cart[c].CartProduct.addStock(cart[c].Quantity);
                                                         for (int d = c; d < cartCount - 1; d++)
                                                         {
                                                             cart[d] = cart[d + 1];
@@ -348,12 +348,12 @@ namespace JAShoppingCartSystem
                                                             }
                                                             else
                                                             {
-                                                                Console.WriteLine($"The stock of the this product is not enough. Only {cart[c].CartProduct.prodStocks} are available.");
+                                                                Console.WriteLine($"The stock of the this product is not enough. Only {cart[c].CartProduct.GetProdStocks()} are available.");
                                                             }
                                                         }
                                                         else if (difference < 0)
                                                         {
-                                                            cart[c].CartProduct.prodStocks += Math.Abs(difference);
+                                                            cart[c].CartProduct.addStock(Math.Abs(difference));
                                                             cart[c].Quantity = newQty;
                                                             Console.WriteLine("Quantity successfully reduced");
                                                         }
@@ -397,7 +397,7 @@ namespace JAShoppingCartSystem
                                     {
                                         for (int e = 0; e < cartCount; e++)
                                         {
-                                            cart[e].CartProduct.prodStocks += cart[e].Quantity;
+                                            cart[e].CartProduct.addStock(cart[e].Quantity); 
                                             cart[e] = null;
                                         }
                                         cartCount = 0;
@@ -457,7 +457,7 @@ namespace JAShoppingCartSystem
                                                 for (int x = 0; x < cartCount; x++)
                                                 {
                                                     CartItems item = cart[x];
-                                                    string itemName = item.CartProduct.prodNames;
+                                                    string itemName = item.CartProduct.GetProdNames();
                                                     Console.WriteLine($"{itemName,-15} | {item.Quantity,-5} | {item.GetSubtotal():F2}");
                                                 }
                                                 Console.WriteLine("----------------------------------------------------------");
@@ -485,9 +485,9 @@ namespace JAShoppingCartSystem
                                                 Console.WriteLine("LOW STOCK ALERT: ");
                                                 foreach (var product in prods)
                                                 {
-                                                    if (product.prodStocks <= 5)
+                                                    if (product.GetProdStocks() <= 5)
                                                     {
-                                                        Console.WriteLine($"{product.prodNames} has only {product.prodStocks} stock/s only");
+                                                        Console.WriteLine($"{product.GetProdNames()} has only {product.GetProdStocks()} stock/s only");
                                                     }
                                                 }
 
